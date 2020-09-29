@@ -18,17 +18,22 @@ public class ControleJogador : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // pega o valor da seta do teclado (1=direita -1=esquerda)
         float mov = Input.GetAxisRaw("Horizontal");
-
-        Debug.Log(mov);
-
+        
+        // faz o flip do sprite do jogador de acordo com sua direção
         if (mov == 1) {
             GetComponent<SpriteRenderer>().flipX = false;
         } else if (mov == -1) {
             GetComponent<SpriteRenderer>().flipX = true;
         }
 
-        rig.velocity = new Vector2(mov * speed, rig.velocity.y);
+        // move o jogador para a direita ou esquerda se não estiver pulando
+        // if ( pulando == false ) {
+            rig.velocity = new Vector2(mov * speed, rig.velocity.y);
+        // }
+
+        // pula se não estiver pulando
         if ( Input.GetKeyDown(KeyCode.Space) && pulando == false) {
             rig.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             pulando = true;
