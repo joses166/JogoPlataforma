@@ -8,6 +8,7 @@ public class ControleJogador : MonoBehaviour
     public float speed;
     public float jumpForce;
     private bool pulando = false;
+    private bool abaixando = false;
     private Animator animator;
     
     // Start is called before the first frame update
@@ -41,6 +42,16 @@ public class ControleJogador : MonoBehaviour
             rig.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             pulando = true;
             animator.SetBool("Pulando", true);
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow) && abaixando == false) {
+            animator.SetBool("Abaixando", true);
+            abaixando = true;
+        } 
+
+        if (Input.GetKeyUp(KeyCode.DownArrow)) {
+            animator.SetBool("Abaixando", false);
+            abaixando = false;
         }
     }
 
