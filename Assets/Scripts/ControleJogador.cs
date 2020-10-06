@@ -8,11 +8,13 @@ public class ControleJogador : MonoBehaviour
     public float speed;
     public float jumpForce;
     private bool pulando = false;
+    private Animator animator;
     
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -31,17 +33,20 @@ public class ControleJogador : MonoBehaviour
         // move o jogador para a direita ou esquerda se não estiver pulando
         // if ( pulando == false ) {
             rig.velocity = new Vector2(mov * speed, rig.velocity.y);
+            animator.SetFloat("Velocidade", Mathf.Abs(mov));
         // }
 
         // pula se não estiver pulando
         if ( Input.GetKeyDown(KeyCode.Space) && pulando == false) {
             rig.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             pulando = true;
+            animator.SetBool("Pulando", true);
         }
     }
 
     void OnCollisionEnter2D(Collision2D col) {
         pulando = false;
+        animator.SetBool("Pulando", false);
     }
 
 }
