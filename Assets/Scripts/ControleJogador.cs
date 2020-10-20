@@ -10,6 +10,10 @@ public class ControleJogador : MonoBehaviour
     private bool pulando = false;
     private bool abaixando = false;
     private Animator animator;
+    public Transform camera;
+    public float minimoCameraX;
+    public float maximoCameraX;
+    public Transform fundo;
     
     // Start is called before the first frame update
     void Start()
@@ -21,6 +25,23 @@ public class ControleJogador : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // min = 4.3
+        // max = 93.1
+        //define os limites da câmera para menor e maior valor
+        float camx = rig.transform.position.x + 3;
+        if (camx < minimoCameraX) {
+            camx = minimoCameraX;
+        }
+        if (camx > maximoCameraX) {
+            camx = maximoCameraX;
+        }
+        //posiciona a camera
+        camera.position = new Vector3(camx, 0 , -10);
+
+        //efeito paralax
+        float fundox = ((((camx - minimoCameraX)) / 1.5F) + 48.5F);
+        fundo.position  = new Vector3(fundox, 0 , 2F);
+
         // pega o valor da seta do teclado (1=direita -1=esquerda)
         float mov = Input.GetAxisRaw("Horizontal");
         
