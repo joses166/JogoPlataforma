@@ -13,8 +13,11 @@ public class ControleJogador : MonoBehaviour
     public Transform camera;
     public float minimoCameraX;
     public float maximoCameraX;
+    public float minimoCameraY;
+    public float maximoCameraY;
     public Transform fundo;
-    
+    public GameObject fireball;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,8 +38,17 @@ public class ControleJogador : MonoBehaviour
         if (camx > maximoCameraX) {
             camx = maximoCameraX;
         }
+
+        float camy = rig.transform.position.y + 3;
+        if (camy < minimoCameraY) {
+            camy = minimoCameraY;
+        }
+        if (camy > maximoCameraY) {
+            camy = maximoCameraY;
+        }
+
         //posiciona a camera
-        camera.position = new Vector3(camx, 0 , -10);
+        camera.position = new Vector3(camx, camy, -10);
 
         //efeito paralax
         float fundox = ((((camx - minimoCameraX)) / 1.5F) + 48.5F);
@@ -74,6 +86,27 @@ public class ControleJogador : MonoBehaviour
             animator.SetBool("Abaixando", false);
             abaixando = false;
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift)) {
+            float fx;
+            float movFire;
+            bool flipFire;
+            if (GetComponent<SpriteRenderer>().flipX) {
+                movFire = -3F;
+                fx = rig.transform.position.x - 2; 
+                flipFire = false;
+            } else {
+                movFire = 3F;
+                fx = rig.transform.position.x + 2; 
+                flipFire = true;
+            }    
+            float fy = rig.transform.position.y + 0.1F;
+            float fz = rig.transform.position.z;
+            GameObject novo = Instantiate(fireball, new Vector3(fx, fy, fz), Quaternion.identity);
+            novo.GetComponent<ControleFireball>().mov = movFire;
+            novo.GetComponent<SpriteRenderer>().flipX = flipFire;            
+        }
+
     }
 
     void OnCollisionEnter2D(Collision2D col) {
