@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ControleJogador : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class ControleJogador : MonoBehaviour
     public float maximoCameraY;
     public Transform fundo;
     public GameObject fireball;
+    public GameObject sons;
+    public Text moeda;
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +78,7 @@ public class ControleJogador : MonoBehaviour
             rig.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             pulando = true;
             animator.SetBool("Pulando", true);
+            sons.GetComponents<AudioSource>()[3].Play();
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow) && abaixando == false) {
@@ -88,6 +92,8 @@ public class ControleJogador : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.LeftShift)) {
+            sons.GetComponents<AudioSource>()[4].Play();
+
             float fx;
             float movFire;
             bool flipFire;
@@ -112,6 +118,13 @@ public class ControleJogador : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col) {
         pulando = false;
         animator.SetBool("Pulando", false);
+
+        if ( col.gameObject.tag == "Moeda" ) {
+            int nmoeda;
+            int.TryParse(moeda.text, out nmoeda);
+            nmoeda++;
+            moeda.text = "" + nmoeda;
+        }
     }
 
 }
