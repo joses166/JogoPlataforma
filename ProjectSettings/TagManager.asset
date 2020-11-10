@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Fire
   - Moeda
+  - Fundo
   layers:
   - Default
   - TransparentFX

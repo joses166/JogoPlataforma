@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ControleJogador : MonoBehaviour
 {
@@ -120,10 +121,16 @@ public class ControleJogador : MonoBehaviour
         animator.SetBool("Pulando", false);
 
         if ( col.gameObject.tag == "Moeda" ) {
-            int nmoeda;
-            int.TryParse(moeda.text, out nmoeda);
-            nmoeda++;
-            moeda.text = "" + nmoeda;
+            Destroy(col.gameObject);
+
+            int numero;
+            int.TryParse(moeda.text, out numero);
+            numero++;
+            moeda.text = "" + numero;
+        }
+
+        if ( col.gameObject.tag == "Fundo" ) {
+            SceneManager.LoadScene("GameOver");
         }
     }
 
